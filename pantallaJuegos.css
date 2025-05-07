@@ -1,0 +1,307 @@
+body {
+    color: black;
+    font-family: "Questrial", sans-serif;
+    background-color: #28AD56;
+    background-image: linear-gradient(
+        80deg,
+        #18529D 25%,
+        transparent 25%,
+        transparent 75%,
+        #18529D 75%,
+        #18529D
+      ),
+      linear-gradient(
+        -20deg,
+        #18529D 25%,
+        transparent 25%,
+        transparent 75%,
+        #18529D 75%,
+        #18529D
+      );
+    background-size: 60px 60px;
+    background-position: 0 0;
+    animation: slide 4s infinite linear;
+  }
+  
+  @keyframes slide {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -120px 60px;
+    }
+  }
+
+    /* CONTENIDO */
+.contenedor-juegos {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Press Start 2P', cursive;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 12px; /*redondear esquinas*/
+  }
+  
+  .contenedor-juegos h1 {
+    font-size: 30px;
+    margin: 0 0 10px 0; /* margen inferior de 20px */
+}
+  
+  .contenedor-juegos h2 {
+    font-size: 20px;
+    margin: 0 0 30px 0; /* margen inferior de 20px */
+  }
+  
+  .contenedor-juegos h3 {
+    font-size: 38px;
+    color: #fbc531;
+    margin: 16px 0;
+  }
+  
+    /* CONTENEDOR DE BOTONES */
+  .botones-container {
+    position: absolute;
+    bottom: 60px; /* Distancia desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px; /* Espacio entre el grupo de botones y el botón salir */
+  }
+  
+  .botones-principales {
+    display: flex;
+    justify-content: center;
+    gap: 60px; /* Aumentado para más separación */
+  }  
+  
+  .boton-salir {
+    text-align: center;
+  }
+  
+  /* ICONOS SUPERIORES */
+  .icono-sonido, .icono-uv, .icono-volver {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  
+  .icono-sonido {
+    display: block;
+    background-image: url('/assets/Iconos/audio-on.png');
+    top: 5%;
+    right: 6%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+  }
+
+  .icono-uv {
+    display: block;
+    background-image: url('assets/Iconos/icono-uv.png');
+    top: 5%;
+    right: 4%;
+    transform: translate(50%, -50%);
+  }
+
+  .icono-volver {
+    display: block;
+    background-image: url('assets/Iconos/volver.png');
+    top: 5%;
+    left: 4%;
+    transform: translate(50%, -50%);
+  }
+  
+  .sonido-activado {
+    background-image: url('assets/Iconos/audio-on.png'); /* Ícono de sonido activo */
+  }
+  
+  .sonido-desactivado {
+    background-image: url('assets/Iconos/audio-off.png'); /* Ícono de sonido apagado */
+  }
+  
+  .icono-sonido:hover,
+  .icono-uv:hover,
+  .icono-volver:hover {
+    opacity: 0.7;
+  }
+  
+    /* ESTILOS DE BOTONES */
+    button {
+    background-color: #153243;
+    color: white;
+    border: 2px solid white;
+    padding: 8px 16px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  button:hover {
+    transform: scale(1.1);
+    background-color: #ffffff;
+    color: #153243;
+    border-color: #153243;
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+
+.actividad-btn {
+    position: relative;
+    overflow: hidden;
+    width: 200px;
+    height: 100px;
+    font-size: 14px;
+    margin-bottom: 30px;
+    background-color: #153243;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  
+  .actividad-btn {
+    position: relative;
+    overflow: hidden;
+    width: 200px;
+    height: 100px;
+    font-size: 14px;
+    background-color: #fbc531;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  
+  /*VIDEO DE CADA BOTON*/
+  .video-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  
+  .actividad-btn:hover .video-hover {
+    opacity: 1;
+  }
+  
+  
+  .boton-regreso-container button  {
+    margin-top: 10px;
+    background-color: #fbc531;
+    color: white;
+    border: 2px solid white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .boton-regreso-container button:hover {
+    transform: scale(1.1);
+    background-color: #ffffff;
+    color: #153243;
+    border-color: #153243;
+  }
+  
+  .boton-regreso-container button:active {
+    transform: scale(0.95);
+  }
+
+  /* Estilo básico para el botón que despliega el menú */
+.menu-btn {
+    background-color: #fbc531;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+  }
+  
+  .menu-btn:hover {
+    background-color: #153243;
+  }
+  
+/* Estilo básico para el botón que despliega el menú */
+.menu-btn {
+    background-color: #fbc531;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+  }
+  
+  .menu-btn:hover {
+    background-color: #153243;
+  }
+  
+
+  /* Estilo del menú desplegable */
+  .menu-desplegable {
+    display: none; /* Inicialmente oculto */
+    position: absolute;
+    background-color: #153243;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+  }
+  
+  .menu-desplegable.mostrar {
+    display: block; /* Mostrar cuando tenga la clase 'mostrar' */
+  }
+  
+  .menu-desplegable h3 {
+    font-size: 18px;
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+/* Estilo general para los botones del menú */
+.menu-btn {
+    background-color: #fbc531; /* Color de fondo del botón */
+    color: #153243; /* Color de texto */
+    border: 2px solid #153243; /* Borde del botón */
+    padding: 8px 16px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px; /* Bordes redondeados */
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; /* Transición suave */
+    margin-bottom: 10px; /* Espacio entre los botones (puedes ajustar el valor) */
+}
+
+
+/* Efecto al pasar el mouse (hover) */
+.menu-btn:hover {
+    transform: scale(1.1); /* Aumenta el tamaño del botón */
+    background-color: #ffffff; /* Cambia el fondo a blanco */
+    color: #153243; /* Cambia el color del texto */
+    border-color: #153243; /* Cambia el color del borde */
+}
+
+  
+  
+  

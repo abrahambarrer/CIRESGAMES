@@ -1,0 +1,187 @@
+body {
+  background-color: #fee440;
+}
+svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+
+.links {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 18px;
+  font-family: sans-serif;
+}
+a {
+  text-decoration: none;
+  color: black;
+  margin-left: 1em;
+}
+a:hover {
+  text-decoration: underline;
+}
+a img.icon {
+  display: inline-block;
+  height: 1em;
+  margin: 0 0 -0.1em 0.3em;
+}
+
+body{
+  margin: 0px;
+}
+
+.background-container{
+  position: relative;
+}
+
+.background-1{
+  position: absolute;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.background-2{
+  position: absolute;
+  opacity: 1;
+  z-index: 0;
+}
+
+    /* CONTENIDO */
+.contenedor-inicio {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Press Start 2P', cursive;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 12px; /*redondear esquinas*/
+  }
+  
+  .contenedor-inicio h1 {
+    font-size: 30px;
+    margin: 0;
+  }
+  
+  .contenedor-inicio h2 {
+    font-size: 20px;
+    margin: 5px 0;
+  }
+  
+  .contenedor-inicio h3 {
+    font-size: 38px;
+    color: #000000;
+    margin: 16px 0;
+  }
+  
+    /* CONTENEDOR DE BOTONES */
+  .botones-container {
+    position: absolute;
+    bottom: 60px; /* Distancia desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espacio entre el grupo de botones y el botón salir */
+  }
+  
+  .botones-principales {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+  }
+  
+  .boton-salir {
+    text-align: center;
+  }
+  
+  /* ICONOS SUPERIORES */
+  .icono-sonido, .icono-uv {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  
+  .icono-sonido {
+    display: block;
+    background-image: url('/assets/Iconos/audio-on.png');
+    top: 5%;
+    right: 6%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+  }
+
+  .icono-uv {
+    display: block;
+    background-image: url('assets/Iconos/icono-uv.png');
+    top: 5%;
+    right: 4%;
+    transform: translate(50%, -50%);
+  }
+  
+  .sonido-activado {
+    background-image: url('assets/Iconos/audio-on.png'); /* Ícono de sonido activo */
+  }
+  
+  .sonido-desactivado {
+    background-image: url('assets/Iconos/audio-off.png'); /* Ícono de sonido apagado */
+  }
+  
+  .icono-sonido:hover,
+  .icono-uv:hover {
+    opacity: 0.7;
+  }
+  
+
+    /* ESTILOS DE BOTONES */
+    button {
+    background-color: #153243;
+    color: white;
+    border: 2px solid white;
+    padding: 8px 16px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  button:hover {
+    transform: scale(1.1);
+    background-color: #ffffff;
+    color: #153243;
+    border-color: #153243;
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+
+  /* INPUTS */
+  .input-nombre {
+    padding: 8px 12px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 32px;
+    border: none;
+    background-color: #153243;
+    border: 2px solid white;
+    color: white;
+    margin: 10px 0;
+    width: 80%;
+  }

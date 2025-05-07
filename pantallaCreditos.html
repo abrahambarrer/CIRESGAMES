@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Créditos</title>
+  <link rel="stylesheet" href="pantallaCreditos.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="contenedor-creditos">
+    <h1>Créditos</h1>
+
+    <h2>Desarrolladores:</h2>
+    <ul>
+      <li>Director de Juego: Leny Blue</li>
+      <li>Programador Principal: Abraham Barrera</li>
+      <li>Diseñador Gráfico: Monserrat Maldonado</li>
+      <li>Sonido y Efectos: Erick Rodríguez</li>
+      <li>Narrativa: Josue Rosaldo</li>
+      <li>Tester Principal: Miguel Patraca</li>
+    </ul>
+
+    <h2>Agradecimientos Especiales:</h2>
+    <h3>
+      A nuestras familias por su paciencia y apoyo. A la comunidad de desarrolladores indie por su inspiración constante. Y, por supuesto, a todos los jugadores que nos acompañan en este viaje. Gracias por jugar.
+    </h3>
+
+    <p>¡Nos vemos en la próxima aventura!</p>
+
+    <a href="pantallaInicio.html">
+      <button class="boton-accion">Regresar</button>
+    </a>
+  </div>
+  <div class="boton-regreso-container">
+    <a href="pantallaInicio.html">
+      <button class="boton-regresar">Regresar</button>
+    </a>
+    </div>
+  </div>
+
+  <div class="contenedor-iconos">
+    <a href="https://www.uv.mx/" target="_blank" class="icono-uv" rel="noreferrer"></a>
+    <div class="icono-sonido sonido-activado" id="iconoSonido"></div>
+    <div class="icono-volver" id="icono-volver"></div>
+  </div>  
+
+  <script>
+    document.querySelectorAll('.actividad-btn').forEach(button => {
+      const video = button.querySelector('video');
+      button.addEventListener('mouseenter', () => video.play());
+      button.addEventListener('mouseleave', () => video.pause());
+    });
+  </script>
+
+<script>
+    const icono = document.getElementById('iconoSonido');
+    icono.addEventListener('click', () => {
+      icono.classList.toggle('sonido-activado');
+      icono.classList.toggle('sonido-desactivado');
+    });
+  </script>
+
+<script>
+    document.getElementById("icono-volver").addEventListener("click", function () {
+      window.location.href = "pantallaInicio.html"; 
+    });
+  </script>
+
+</body>
+</html>

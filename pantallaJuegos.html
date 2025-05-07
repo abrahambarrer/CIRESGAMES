@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pantalla de Juegos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="pantallaJuegos.css" />
+</head>
+<body>
+  <div class="contenedor-juegos">
+    <header class="header">
+      <h1 class="titulo">CIRESGAMES</h1>
+      <h2 class="subtitulo">Dr. Dario</h2>
+    </header>
+
+    <div class="botones-actividades">
+      <div class="actividades-container1">
+        <a href="memorama/index.html">
+          <button class="actividad-btn">
+            Actividad 1
+            <video src="/assets/Videos/videoPrueba.mp4" muted loop class="video-hover"></video>
+          </button>
+        </a>
+        <a href="loteria/index.html">
+          <button class="actividad-btn">
+            Actividad 2
+            <video src="/assets/Videos/videoPrueba.mp4" muted loop class="video-hover"></video>
+          </button>
+        </a>
+        <button class="actividad-btn">
+          Actividad 3
+          <video src="/assets/Videos/videoPrueba.mp4" muted loop class="video-hover"></video>
+        </button>
+      </div>
+      <div class="actividades-container2">
+        <button class="actividad-btn">
+          Actividad 4
+          <video src="/assets/Videos/videoPrueba.mp4" muted loop class="video-hover"></video>
+        </button>
+        <button class="actividad-btn">
+          Actividad 5
+          <video src="/assets/Videos/videoPrueba.mp4" muted loop class="video-hover"></video>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú desplegable -->
+    <div id="menu" class="menu-desplegable">
+      <h3>Opciones</h3>
+      <button class="opcion-btn">Iniciar</button>
+      <button class="opcion-btn">Ranking</button>
+    </div>
+
+    <div class="boton-regreso-container">
+      <a href="pantallaInicio.html">
+        <button class="boton-regresar">Regresar</button>
+      </a>
+    </div>
+  </div>
+
+  <div class="contenedor-iconos">
+    <a href="https://www.uv.mx/" target="_blank" class="icono-uv" rel="noreferrer"></a>
+    <div class="icono-sonido sonido-activado" id="iconoSonido"></div>
+    <div class="icono-volver" id="icono-volver"></div>
+  </div>  
+
+  <script>
+    // Mostrar el menú al hacer clic en un botón de actividad
+    document.querySelectorAll('.actividad-btn').forEach((button) => {
+      button.addEventListener('click', function() {
+        const menu = document.getElementById('menu');
+        const rect = button.getBoundingClientRect();
+        
+        // Posiciona el menú encima del botón de actividad
+        menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight - 5}px`;  // Resta la altura del menú para que quede arriba
+    menu.style.left = `${rect.left + window.scrollX}px`;
+
+        
+        // Alternar la visibilidad del menú
+        menu.classList.toggle('mostrar');
+      });
+    });
+
+    // Cerrar el menú si se hace clic fuera de él
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('menu');
+      const botonesActividad = document.querySelectorAll('.actividad-btn');
+
+      if (!menu.contains(event.target) && !Array.from(botonesActividad).some(btn => btn.contains(event.target))) {
+        menu.classList.remove('mostrar'); // Cerrar el menú
+      }
+    });
+
+    // Agregar comportamiento de hover en los videos
+    document.querySelectorAll('.actividad-btn').forEach(button => {
+      const video = button.querySelector('video');
+      button.addEventListener('mouseenter', () => video.play());
+      button.addEventListener('mouseleave', () => video.pause());
+    });
+
+    // Cambiar el icono de sonido
+    const icono = document.getElementById('iconoSonido');
+    icono.addEventListener('click', () => {
+      icono.classList.toggle('sonido-activado');
+      icono.classList.toggle('sonido-desactivado');
+    });
+
+    // Cambiar de página al hacer clic en el icono de volver
+    document.getElementById("icono-volver").addEventListener("click", function () {
+      window.location.href = "pantallaInicio.html"; 
+    });
+
+    // Recuperar el nombre ingresado y mostrarlo
+    const nombreGuardado = localStorage.getItem('nombreUsuario');
+    if (nombreGuardado) {
+      document.querySelector('.subtitulo').textContent = nombreGuardado;
+    }
+  </script>
+</body>
+</html>
