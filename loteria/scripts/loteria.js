@@ -32,13 +32,6 @@ function preload() {
 }
 
 function setup() {
-  // Evitar márgenes y scrollbars
-  const globalStyle = createElement('style', `
-    html, body { margin:0; padding:0; overflow:hidden; }
-    canvas { display:block; }
-  `);
-  globalStyle.parent(document.head);
-
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent('canvas-container');
   document.getElementById('loader').style.display = 'none';
@@ -329,61 +322,6 @@ class MainButton {
   }
 
   _applyStyles() {
-    const style = createElement('style', `
-        .btn-main {
-          padding: 1rem 2rem;
-          background-color: #fcd24f;
-          color: black;
-          border: 0.3rem solid black;
-          border-radius: 25px;
-          font-family: 'Press Start 2P';
-          text-align: center;
-          
-          cursor: pointer;
-          transition: transform 0.2s ease, background-color 0.2s ease;
-
-          position: relative;
-        }
-
-        .btn-main:hover {
-          transform: scale(1.1);
-          background-color: #ffffff;
-          color: #153243;
-          border-color: #153243;
-        }
-
-        .btn-main:active {
-          transform: scale(0.95);
-        }
-
-        .btn-main-centered {
-          padding: 1rem 2rem;
-          background-color: #fcd24f;
-          color: black;
-          border: 0.3rem solid black;
-          border-radius: 25px;
-          font-family: 'Press Start 2P';
-          text-align: center;
-          
-          cursor: pointer;
-          transition: transform 0.2s ease, background-color 0.2s ease;
-
-          position: absolute;
-          transform: translate(-50%, -50%);
-        }
-
-        .btn-main-centered:hover {
-          transform: scale(1.1) translate(-50%, -50%);
-          background-color: #ffffff;
-          color: #153243;
-          border-color: #153243;
-        }
-
-        .btn-main-centered:active {
-          transform: scale(0.95) translate(-50%, -50%);
-        }
-    `);
-    style.parent(document.body);
     this.button.addClass('btn-main');
   }
 

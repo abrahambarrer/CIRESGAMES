@@ -3,7 +3,7 @@ let reversoImagenes = [];
 let partida;
 let tiempoInicio;
 let tiempoActual;
-let queensides;
+let pressStart2P;
 let flipSound;
 let matchSound;
 let musicaFondo;
@@ -12,7 +12,7 @@ let confetti = [];
 let boton;
 
 function preload() {
-  queensides = loadFont('fonts/queensides.ttf');
+  pressStart2P = loadFont('fonts/PressStart2P-Regular.ttf');
 
   anverso = loadImage("assets/anverso.png");
   reversoImagenes.push(loadImage("assets/cilindro.png"));
@@ -89,8 +89,8 @@ function draw() {
   let paresTexto = "Intentos: " + partida.paresRevelados;
   // Dibujar cronómetro en esquina superior izquierda
   fill(0);
-  textSize(40);
-  textFont(queensides);
+  textSize(20);
+  textFont(pressStart2P);
   textAlign(RIGHT, TOP);
   text(tiempoTexto, width - 20, 20);
   text(paresTexto, width - 20, 80);
@@ -399,61 +399,6 @@ class MainButton {
   }
 
   _applyStyles() {
-    const style = createElement('style', `
-        .btn-main {
-          padding: 1rem 2rem;
-          background-color: #fcd24f;
-          color: black;
-          border: 0.3rem solid black;
-          border-radius: 25px;
-          font-family: 'Press Start 2P';
-          text-align: center;
-          
-          cursor: pointer;
-          transition: transform 0.2s ease, background-color 0.2s ease;
-
-          position: relative;
-        }
-
-        .btn-main:hover {
-          transform: scale(1.1);
-          background-color: #ffffff;
-          color: #153243;
-          border-color: #153243;
-        }
-
-        .btn-main:active {
-          transform: scale(0.95);
-        }
-
-        .btn-main-centered {
-          padding: 1rem 2rem;
-          background-color: #fcd24f;
-          color: black;
-          border: 0.3rem solid black;
-          border-radius: 25px;
-          font-family: 'Press Start 2P';
-          text-align: center;
-          
-          cursor: pointer;
-          transition: transform 0.2s ease, background-color 0.2s ease;
-
-          position: absolute;
-          transform: translate(-50%, -50%);
-        }
-
-        .btn-main-centered:hover {
-          transform: scale(1.1) translate(-50%, -50%);
-          background-color: #ffffff;
-          color: #153243;
-          border-color: #153243;
-        }
-
-        .btn-main-centered:active {
-          transform: scale(0.95) translate(-50%, -50%);
-        }
-    `);
-    style.parent(document.body);
     this.button.addClass('btn-main');
   }
 
