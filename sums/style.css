@@ -21,7 +21,8 @@
     }
 
     .contenedor {
-        max-width: 700px;
+        max-width: 530px;
+        max-width: 640px;
         margin: auto;
         background-image: url('assets/startPicture.png');
         background-size: cover;
@@ -114,13 +115,6 @@
         display: inline-block;
         /*transition: transform 0.2s ease, background-color 0.2s ease;*/
     }
-
-    /*#puntos:hover, #errores:hover, #cronometro:hover {
-        /*transform: scale(1.1);
-        background-color: #ffffff;
-        color: #153243;
-        border-color: #153243;
-    }*/
 
     #puntos:active, #errores:active, #cronometro:active {
         transform: scale(0.95);
