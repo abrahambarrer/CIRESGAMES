@@ -64,14 +64,6 @@ function setup() {
   for (let i = 0; i < 100; i++) {
     confetti[i] = new Confetti(random(0, width), random(-height, 0), random(-1, 1));
   }
-
-  boton = new MainButton('<', cambiarPagina);
-  boton.setPosition(width / 50, height / 50);
-  boton.setPadding(1, 2);
-}
-
-function cambiarPagina() {
-  window.location.href = "../pantallaJuegos.html";
 }
 
 function draw() {
@@ -117,6 +109,13 @@ function mostrarConfetti() {
     }
   }
 }
+
+window.addEventListener('load', function() {
+    const volverBtn = document.getElementById('icono-volver');
+    volverBtn.addEventListener('click', function() {
+    window.location.href = "../pantallaJuegos.html";
+  });
+});
 
 function mousePressed() {
   partida.mousePressed(mouseX, mouseY);
@@ -368,55 +367,5 @@ class Confetti {
     this.speed += 1 / 200;
 
     this.y += this.speed;
-  }
-}
-
-class MainButton {
-  constructor(label, onClick, sound = null) {
-    this.enabled = true; // Estado del botón
-    this.sound = sound;
-    this.onClick = onClick;
-
-    this.button = createButton(label);
-    this.button.mousePressed(() => {
-      if (!this.enabled) return; // Si está deshabilitado, no hace nada
-      if (this.sound) this.sound.play();
-      this.onClick();
-    });
-    this._applyStyles();
-  }
-
-  disable() {
-    this.enabled = false;
-    this.button.style('opacity', '0.5');
-    this.button.style('pointer-events', 'none');
-  }
-
-  enable() {
-    this.enabled = true;
-    this.button.style('opacity', '1');
-    this.button.style('pointer-events', 'auto');
-  }
-
-  _applyStyles() {
-    this.button.addClass('btn-main');
-  }
-
-  setPosition(x, y) {
-    this.button.position(x, y);
-  }
-
-  setPadding(vertical, horizontal) {
-    this.button.style('padding', `${vertical}rem ${horizontal}rem`);
-  }
-
-  positionAbsolute() {
-    this.button.class('btn-main-centered');
-  }
-
-  setSize(size) {
-    this.button.style('font-size', `${size}px`);
-    this.button.style('border', `${size * 0.1}px solid black`);
-    this.button.style('border-radius', `${size * 50}px`);
   }
 }

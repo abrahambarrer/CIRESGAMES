@@ -5,7 +5,6 @@ let boton;
 let cardAssets = [];
 
 function preload() {
-  // Cargar sonidos antes de iniciar
   soundButton = loadSound('sounds/toy-button.mp3');
   soundCard = loadSound('sounds/card.mp3');
 
@@ -36,24 +35,23 @@ function setup() {
   canvas.parent('canvas-container');
   document.getElementById('loader').style.display = 'none';
   document.getElementById('canvas-container').style.display = 'block';
-
-  boton = new MainButton('<', cambiarPagina);
-  boton.setPosition(width / 50, height / 50);
-  boton.setPadding(1, 2);
   
   imageMode(CENTER);
   angleMode(RADIANS);
   game = new Game(cardAssets);
 }
 
-function cambiarPagina() {
-  window.location.href = '../pantallaJuegos.html';
-}
-
 function draw() {
   background(220);
   game.display();
 }
+
+window.addEventListener('load', function() {
+    const volverBtn = document.getElementById('icono-volver');
+    volverBtn.addEventListener('click', function() {
+    window.location.href = "../pantallaJuegos.html";
+  });
+});
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -280,7 +278,6 @@ class Transition {
       pop();
     }
 
-    // Derecha: throwing effect
     image(this.old.front, cx + this.old.w / 2 + sp, baseY, this.old.w, this.old.h);
     const startX = width + this.next.w / 2;
     const endX = cx + this.next.w / 2 + sp;
