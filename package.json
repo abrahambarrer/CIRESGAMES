@@ -1,0 +1,23 @@
+{
+  "name": "ciresgames",
+  "version": "1.0.0",
+  "description": "Proyecto Educativo para el Centro de Investigacion de Recursos Energeticos y Sostenibles.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abrahambarrer/CIRESGAMES.git"
+  },
+  "author": "Abraham Barrera, Montserrat Maldonado, Miguel Patraca, Erick Rodriguez, Josue Rosaldo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abrahambarrer/CIRESGAMES/issues"
+  },
+  "homepage": "https://github.com/abrahambarrer/CIRESGAMES#readme",
+  "devDependencies": {
+    "electron": "^36.2.0"
+  }
+}
