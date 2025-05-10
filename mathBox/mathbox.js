@@ -136,7 +136,7 @@ function Enemy(x, y, velX, velY) {
 
     if (this.x + this.w > rekt.x && this.y + this.w > rekt.y && this.x < rekt.x + rekt.size && this.y < rekt.y + rekt.size) {
       crashSound.play();
-      alert("GAME OVER! Final score: " + score);
+      alert("Fin del juego! Puntuación: " + score);
       setup();
     }
   }
