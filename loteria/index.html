@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <title>Sketch</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="#">
+  <title>Carrusel de Cartas</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-    <script src="libraries/p5.min.js"></script>
-    <script src="libraries/p5.sound.min.js"></script>
-  </head>
-
-  <body>
-
-    <img id="icono-volver" src="../assets/Iconos/volver.png" alt="Volver" />  
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <img id="icono-volver" src="assets/volver.png" alt="Volver" /> 
 
     <div id="loader">
       <div class="loadingio-spinner-blocks-2by998twmg8">
@@ -34,7 +30,14 @@
       </div>
     </div>
 
-    <div id="canvas-container"></div>
-    <script src="scripts/loteria.js"></script>
-  </body>
+    <div class="carousel-container">
+        <button id="btn-prev" disabled>&lt</button>
+        <div class="carousel">
+            <!-- Cartas -->
+        </div>
+        <button id="btn-next">></button>
+    </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
