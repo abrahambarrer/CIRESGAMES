@@ -178,17 +178,19 @@ btnNext.addEventListener("click", () => {
   }
 });
 
-document.addEventListener("click", () => {
-  userInteracted = true;
-}, { once: true });
-
-// Iniciar precarga
-//loader.style.display = "block";
+// Iniciar preload
 preloadAssets().then(() => {
-  loader.style.display = "none";
-  setupCards();
-  render();
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('intro-overlay').style.display = 'flex';
+
+  document.getElementById('start-button').addEventListener('click', () => {
+    userInteracted = true;
+    document.getElementById('intro-overlay').style.display = 'none';
+    setupCards();
+    render();
+  });
 });
+
 
 window.addEventListener('load', function() {
     const volverBtn = document.getElementById('icono-volver');
