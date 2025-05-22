@@ -19,11 +19,11 @@ function comenzar() {
     txt_resultado.innerHTML = "?";
     txt_menj.innerHTML = "";
 
-    // Aumentar dificultad cada 3 aciertos
-    dificultad = 10 + Math.floor(puntos / 3) * 10;
+    // Aumentar dificultad cada 2 aciertos
+    dificultad = 20 + Math.floor(puntos / 2) * 10;
 
-    num1 = Math.round(Math.random() * dificultad);
-    num2 = Math.round(Math.random() * dificultad);
+    num1 = Math.floor(Math.random() * (dificultad - 10)) + 10;
+    num2 = Math.floor(Math.random() * (dificultad - 10)) + 10;
 
     // Elegir aleatoriamente entre suma o resta
     let operacion = Math.random() < 0.5 ? "+" : "-";
@@ -67,11 +67,11 @@ function controlarRespuesta(opcionElegida) {
 
     if (respuesta == parseInt(opcionElegida.innerHTML)) {
         txt_menj.innerHTML = "EXCELENTE!!!";
-        txt_menj.style.color = "#0011FF";
+        txt_menj.style.color = "#dafd10";
         puntos++;
         document.getElementById("puntos").innerHTML = `Puntos: ${puntos}`;
         opcionElegida.style.backgroundColor = "#00FF70";
-        setTimeout(comenzar, 2000);
+        setTimeout(comenzar, 1200);
     } else {
         errores++;
         txt_menj.innerHTML = "INTENTA DE NUEVO!!!";
@@ -84,7 +84,7 @@ function controlarRespuesta(opcionElegida) {
             clearInterval(intervalo);
             desactivarOpciones();
         } else {
-            setTimeout(limpiar, 2000);
+            setTimeout(limpiar, 1200);
         }
     }
 }

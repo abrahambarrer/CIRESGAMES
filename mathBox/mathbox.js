@@ -12,9 +12,11 @@ var maxNum = 12;
 var musicStarted = false;
 var bgMusic;
 
+bgMusic = new sound("sounds/cuadros.mp3");
+
 function setup(){
   createCanvas(600,600);
-  textAlign(CENTER);
+  textAlign(CENTER);3
 
   // Inicializar valores
   sNum = Math.floor(random(1, maxSNum));
@@ -26,11 +28,10 @@ function setup(){
   enemies[0] = new Enemy(20, 20, rndDir(), rndDir());
 
   // Cargar sonidos
-  crashSound = new sound("https://actions.google.com/sounds/v1/impacts/crash.ogg");
-  popSound = new sound("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+  crashSound = new sound("sounds/crash.mp3");
+  popSound = new sound("sounds/point.mp3");
 
   // Música de fondo
-  bgMusic = new sound("sounds/cuadros.mp3");
   bgMusic.sound.loop = true;
 }
 
@@ -135,10 +136,9 @@ function Enemy(x, y, velX, velY) {
     if (this.x <= 0 || this.x >= width - this.w) this.velX *= -1;
 
     if (this.x + this.w > rekt.x && this.y + this.w > rekt.y && this.x < rekt.x + rekt.size && this.y < rekt.y + rekt.size) {
-      crashSound.play();
-      alert("Fin del juego! Puntuación: " + score);
-      setup();
-    }
+    crashSound.play();
+    mostrarFinDelJuego();
+  }
   }
   this.pickSpot = function() {
     var newX = random(0, width - this.w);
@@ -162,6 +162,13 @@ function Enemy(x, y, velX, velY) {
   }
 }
 
+function mostrarFinDelJuego() {
+  const mensaje = document.getElementById("mensaje-fin");
+  mensaje.style.display = "block";
+  noLoop(); // Detiene draw()
+  bgMusic.stop(); // Opcional: detener música al perder
+}
+
 function draw(){
   background(0, 0, 0);
 
@@ -177,7 +184,7 @@ function draw(){
   text("Score: " + score, 300, 540);
   textSize(30);
 
-  if (floor(score / 10) + 1 > enemies.length) {
+  if (floor(score / 5) + 1 > enemies.length) {
     enemies.push(new Enemy(0, 0, rndDir(), rndDir()));
     enemies[enemies.length - 1].pickSpot();
   }
@@ -211,7 +218,7 @@ function draw(){
 }
 
 function rndDir() {
-  return random(-3, 3);
+  return random(-6, 6);
 }
 
 function startMusic() {
@@ -247,9 +254,25 @@ document.addEventListener("DOMContentLoaded", function () {
 window.addEventListener('load', function() {
   const volverBtn = document.getElementById('btn-volver');
   volverBtn.addEventListener('click', function() {
-    // Detener música antes de salir
     bgMusic.stop();
-    // Redirigir a la pantalla anterior (ajusta si es diferente)
     window.location.href = "../pantallaJuegos.html";
+  });
+
+  const reiniciarBtn = document.getElementById('reiniciar');
+  reiniciarBtn.addEventListener('click', function () {
+  bgMusic.rewind();
+  if (!musicMuted) {
+    bgMusic.play();
+  }
+
+  // Sincroniza el icono con el estado de mute
+  const musicIcon = document.getElementById("musicIcon");
+  musicIcon.src = musicMuted ? "assets/audio-off.png" : "assets/audio-on.png";
+
+  document.getElementById("mensaje-fin").style.display = "none";
+  score = 0;
+  enemies = [];
+  setup();
+  loop();
   });
 });

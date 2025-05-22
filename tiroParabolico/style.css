@@ -1,8 +1,12 @@
+
+
 body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: 'Press Start 2P', cursive; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #gameCanvas {
@@ -11,9 +15,10 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
-/* --- CONTENEDOR DE BOTONES --- */
+
 .controles-superiores {
   position: fixed;
   top: 20px;
@@ -23,7 +28,6 @@ body {
   z-index: 1000;
 }
 
-/* ESTILOS BASE PARA TODOS LOS BOTONES */
 button {
   background-color: #153243;
   color: white;
@@ -31,28 +35,27 @@ button {
   font-family: 'Press Start 2P', cursive;
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 1000;
 }
 
-/* BOTÓN VOLVER */
-.boton-regreso button {
-  padding: 8px 16px;
+.boton-regreso {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 12px 20px;
   font-size: 14px;
-  border-radius: 20px;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  z-index: 1000;
+  cursor: pointer;
 }
 
-/* BOTÓN SONIDO */
-.boton-sonido button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
 
-/* EFECTOS HOVER/ACTIVE (compartidos) */
+
+
 button:hover {
   transform: scale(1.1);
   background-color: #ffffff;
@@ -64,10 +67,84 @@ button:active {
   transform: scale(0.95);
 }
 
-.boton-sonido.sonido-activado button::after {
-  content: "🔊";
+input[type=range] {
+  height: 10px;
+  border-radius: 5px;
+  background: #ddd;
+  outline: none;
+  z-index: 1000;
+  position: relative;
 }
 
-.boton-sonido.sonido-desactivado button::after {
-  content: "🔇";
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 150px;
+  height: 10px;
+  background: #ddd; 
+  border-radius: 5px;
+  outline: none;
+  margin: 10px 0;
+  z-index: 1000;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50; 
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+#gameCanvas div:nth-of-type(1) input[type=range] {
+  background: linear-gradient(to right, #FFA500, #FF8C00);
+}
+
+#gameCanvas div:nth-of-type(2) input[type=range] {
+  background: linear-gradient(to right, #4CAF50, #2E7D32);
+}
+
+#gameCanvas div:nth-of-type(1) input[type=range]::-webkit-slider-thumb {
+  background: #FFA500;
+}
+
+#gameCanvas div:nth-of-type(2) input[type=range]::-webkit-slider-thumb {
+  background: #4CAF50;
+}
+#gameCanvas p {
+  pointer-events: none; 
+  user-select: none; 
+}
+
+#icono-volver {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#icono-volver:hover {
+  opacity: 0.7;
 }

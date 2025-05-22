@@ -1,249 +1,350 @@
-let particula;
-let canasta;
+let pelota;
+let aro; 
 let controlAngulo, controlPotencia;
 let mostrarAngulo, mostrarPotencia;
-let estaLanzada = false;
+let pelotaLanzada = false;
 let velocidadParpadeo = 0.1;
 let contadorParpadeosColor = 0;
-let puntuacion = 0;
-let mensajeFin = null;
-let sonidoActivado = true;
-let sonidoDisparo, sonidoCanasta;
+let estrellas = []; 
+let mensajeFueraRango = null;
+let tiempoOcultarMensaje = 0;
+let contadorLanzamientos = 0;
+let botonReiniciar, botonSalir, botonLanzar;
+let mensajeGanaste = null;
+let pressStart2P;
+
+function preload() {
+  pressStart2P = loadFont('fonts/PressStart2P-Regular.ttf');
+}
 
 function setup() {
-  let lienzo = createCanvas(windowWidth, windowHeight);
-  lienzo.parent('gameCanvas');
-  
-  particula = {
-    x: 100,
-    y: height - 100,
-    r: 15,
-    vx: 0,
-    vy: 0,
-    gravedad: 0.2,
-    baseX: 100,
-    baseY: height - 100
-  };
-  
-  reiniciarPosicionCanasta();
-  
-  controlAngulo = createSlider(0, 90, 45);
-  controlAngulo.position(100, 20);
-  controlAngulo.style('width', '150px');
-  
-  controlPotencia = createSlider(5, 20, 10);
-  controlPotencia.position(100, 50);
-  controlPotencia.style('width', '150px');
-  
-  mostrarAngulo = createP(controlAngulo.value() + "°");
-  mostrarAngulo.position(controlAngulo.x + controlAngulo.width + 10, controlAngulo.y - 15);
-  mostrarAngulo.style('color', '#333');
-  
-  mostrarPotencia = createP(controlPotencia.value());
-  mostrarPotencia.position(controlPotencia.x + controlPotencia.width + 10, controlPotencia.y - 15);
-  mostrarPotencia.style('color', '#333');
-  
-  let botonLanzar = createButton("Dispara");
-  botonLanzar.position(30, 80);
-  botonLanzar.mousePressed(lanzarParticula);
-  botonLanzar.style('padding', '8px 15px');
-  botonLanzar.style('background', '#4CAF50');
-  botonLanzar.style('color', 'white');
-  
-  document.getElementById('btnSonido').addEventListener('click', function() {
-    sonidoActivado = !sonidoActivado;
-    this.classList.toggle('sonido-on');
-    this.classList.toggle('sonido-off');
-    
-    if (sonidoActivado) {
-      sonidoDisparo.setVolume(0.7);
-      sonidoCanasta.setVolume(0.7);
-    } else {
-      sonidoDisparo.setVolume(0);
-      sonidoCanasta.setVolume(0);
-    }
-  });
-}
-
-function reiniciarPosicionCanasta() {
-  canasta = {
-    x: random(width * 0.5, width * 0.8),
-    y: random(height * 0.4, height * 0.6),
-    w: 60,
-    alturaRed: 70
-  };
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  particula.y = height - 100;
-  particula.baseY = height - 100;
-  reiniciarPosicionCanasta();
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent('gameCanvas');
+  crearEstrellas();
+  crearPelota();
+  crearAro();
+  crearControles();
+  crearBotones();
 }
 
 function draw() {
-  background(240);
+  dibujarFondo();
+  dibujarCanon();
+  actualizarPelota();
+  dibujarPelota();
+  dibujarAro();
+  mostrarControles();
+  gestionarMensajes();
+  mostrarContadorIntentos();
+}
 
+function crearEstrellas() {
+  for (let i = 0; i < 100; i++) {
+    estrellas.push({
+      x: random(width),
+      y: random(height),
+      velocidad: random(0.5, 2),
+      radio: random(1, 3),
+      brillo: random(100, 255)
+    });
+  }
+}
+
+function crearPelota() {
+  pelota = {
+    x: 100,
+    y: height - 80,
+    r: 15,
+    vx: 0,
+    vy: 0,
+    gravedad: 0.5,
+    baseX: 100,
+    baseY: height - 80
+  };
+}
+
+function crearAro() {
+  aro = {
+    x: random(width * 0.5, width * 0.8),
+    y: random(height * 0.4, height * 0.6),
+    w: 60,
+    h: 60,
+    brillo: 255
+  };
+}
+
+function crearControles() {
+  controlAngulo = createSlider(0, 90, 45);
+  controlAngulo.position(width/2 - 75, height - 100);
+  controlAngulo.style('width', '150px');
+
+  controlPotencia = createSlider(5, 20, 10);
+  controlPotencia.position(width/2 - 75, height - 70);
+  controlPotencia.style('width', '150px');
+
+  mostrarAngulo = createP(controlAngulo.value() + "°");
+  mostrarAngulo.position(controlAngulo.x + controlAngulo.width + 10, controlAngulo.y - 10);
+  mostrarAngulo.style('color', '#FFFFFF');
+  mostrarAngulo.style('font-weight', 'bold');
+  mostrarAngulo.style('z-index', '100');
+
+  mostrarPotencia = createP(controlPotencia.value());
+  mostrarPotencia.position(controlPotencia.x + controlPotencia.width + 10, controlPotencia.y - 10);
+  mostrarPotencia.style('color', '#FFFFFF');
+  mostrarPotencia.style('font-weight', 'bold');
+  mostrarPotencia.style('z-index', '100');
+
+  botonLanzar = createButton("Lanzar");
+  botonLanzar.position(width/2 - 35, height - 40);
+  botonLanzar.mousePressed(lanzarPelota);
+  botonLanzar.style('padding', '8px 15px');
+  botonLanzar.style('background', '#4CAF50');
+  botonLanzar.style('color', 'white');
+  botonLanzar.style('font-family',  'PressStart2P-Regular');
+}
+
+function crearBotones() {
+  botonReiniciar = createButton("Reiniciar Juego");
+  botonReiniciar.position(width/2 - 70, height/2 + 60);
+  botonReiniciar.style('font-family',  'PressStart2P-Regular');
+  botonReiniciar.mousePressed(reiniciarJuego);
+  botonReiniciar.hide();
+
+  botonSalir = createButton("Salir");
+  botonSalir.style('font-family',  'PressStart2P-Regular');
+  botonSalir.position(width/2 , height/2 + 100);
+  botonSalir.mousePressed(salirJuego);
+  botonSalir.hide();
+}
+
+function dibujarFondo() {
+  background(10, 20, 40);
+  for (let estrella of estrellas) {
+    estrella.y += estrella.velocidad;
+    if (estrella.y > height) {
+      estrella.y = 0;
+      estrella.x = random(width);
+    }
+    fill(255, 255, 255, estrella.brillo);
+    noStroke();
+    ellipse(estrella.x, estrella.y, estrella.radio);
+  }
+}
+
+function dibujarCanon() {
   let angulo = radians(controlAngulo.value());
-  let longitudCanon = 60;
-  
-  // Cañón
-  fill(100);
+  let longitudCanon = 100;
+  let grosorBoca = 40;
+  let grosorBase = 20;
+  let alturaCanon = 60;
+
   push();
   translate(50, height - 50);
+  fill(101, 67, 33);
+  noStroke();
+  rect(-40, 10, 100, 15);
+  fill(70, 50, 30);
+  ellipse(-25, 25, 25, 25);
+  ellipse(25, 25, 25, 25);
+  rect(-35, -alturaCanon, 10, alturaCanon + 10);
+  rect(25, -alturaCanon, 10, alturaCanon + 10);
+  beginShape();
+  vertex(-25, -10);
+  vertex(-35, -alturaCanon);
+  vertex(-30, -alturaCanon);
+  vertex(-20, -10);
+  endShape(CLOSE);
+  beginShape();
+  vertex(25, -10);
+  vertex(35, -alturaCanon);
+  vertex(30, -alturaCanon);
+  vertex(20, -10);
+  endShape(CLOSE);
   rotate(-angulo);
-  rect(0, -5, longitudCanon, 10);
-  fill(150);
-  ellipse(longitudCanon, 0, 15, 15);
-  pop();
-
-  if (!estaLanzada) {
-    particula.x = 50 + longitudCanon * cos(angulo);
-    particula.y = (height - 50) - longitudCanon * sin(angulo);
+  fill(80, 80, 80);
+  beginShape();
+  vertex(0, -grosorBase/2);
+  vertex(longitudCanon * 0.7, -grosorBoca/2);
+  vertex(longitudCanon * 0.7, grosorBoca/2);
+  vertex(0, grosorBase/2);
+  endShape(CLOSE);
+  fill(70, 70, 70);
+  for (let x = 10; x < longitudCanon * 0.7; x += 15) {
+    let grosorAro = map(x, 0, longitudCanon * 0.7, grosorBase, grosorBoca);
+    ellipse(x, 0, grosorAro * 1.1, grosorAro * 1.1);
   }
+  fill(30, 30, 30);
+  ellipse(longitudCanon * 0.7, 0, grosorBoca * 0.7);
+  fill(90, 90, 90);
+  rect(0, -grosorBase/2, 5, grosorBase);
+  pop();
+}
 
+function mostrarContadorIntentos() {
+  textSize(30);
+  textAlign(CENTER, TOP);
+  textFont(pressStart2P);
+  fill(255, 215, 0);
+  text("INTENTOS: " + contadorLanzamientos, width/2, 40);
+}
 
+function actualizarPelota() {
+  if (!pelotaLanzada) {
+    let angulo = radians(controlAngulo.value());
+    let longitudCanon = 70;
+    pelota.x = 50 + longitudCanon * cos(angulo);
+    pelota.y = height - 50 - longitudCanon * sin(angulo);
+  } else {
+    pelota.x += pelota.vx;
+    pelota.y -= pelota.vy;
+    pelota.vy -= pelota.gravedad;
+    verificarImpacto();
+  }
+}
+
+function dibujarPelota() {
   contadorParpadeosColor += velocidadParpadeo;
-  let colorParpadeo = color(
+  fill(
     255 * abs(sin(contadorParpadeosColor)),
     150 * abs(sin(contadorParpadeosColor + PI/3)),
     100 * abs(sin(contadorParpadeosColor + 2*PI/3))
   );
-  fill(colorParpadeo);
   noStroke();
-  ellipse(particula.x, particula.y, particula.r * 2);
-  
-  if (estaLanzada && frameCount % 6 < 2) {
+  ellipse(pelota.x, pelota.y, pelota.r * 2);
+  if (pelotaLanzada && frameCount % 6 < 3) {
     fill(255, 255, 255, 150);
-    ellipse(particula.x, particula.y, particula.r * 2.5);
+    ellipse(pelota.x, pelota.y, pelota.r * 2.5);
   }
-  
-  dibujarCanasta();
-  
-  
-  if (estaLanzada) {
-    particula.x += particula.vx;
-    particula.y += particula.vy;
-    particula.vy += particula.gravedad;
-    
-    if (particula.y + particula.r > height) {
-      reiniciarParticula();
-    }
-    
-   if (
-      dist(particula.x, particula.y, 
-           canasta.x + canasta.w/2, canasta.y) < particula.r + canasta.w/2 &&
-      particula.y < canasta.y + 10 &&
-      particula.vy > 0
-    ) {
-      mostrarmensajeFin();
-      reiniciarParticula();
-      reiniciarPosicionCanasta();
-    }
+}
+
+function dibujarAro() {
+  noFill();
+  strokeWeight(3);
+  stroke(255, 215, 0, 150 + 105 * sin(frameCount * 0.1));
+  ellipse(aro.x, aro.y, aro.w, aro.h);
+  strokeWeight(1);
+  stroke(255, 255, 255, 100);
+  ellipse(aro.x, aro.y, aro.w - 15, aro.h - 15);
+  if (frameCount % 30 < 15) {
+    stroke(255, 255, 255, 150);
+    strokeWeight(2);
+    line(aro.x - aro.w/2, aro.y, aro.x + aro.w/2, aro.y);
+    line(aro.x, aro.y - aro.h/2, aro.x, aro.y + aro.h/2);
   }
-  
+}
+
+function mostrarControles() {
+  textFont(pressStart2P);
   mostrarAngulo.html(controlAngulo.value() + "°");
   mostrarPotencia.html(controlPotencia.value());
-  
-  fill(100);
+  fill(255);
   textSize(20);
-  text("Ángulo:", controlAngulo.x - 70, controlAngulo.y + 15);
-  text("Fuerza:", controlPotencia.x - 70, controlPotencia.y + 15);
   
-  if (mensajeFin) {
-    mensajeFin.show();
-    if (frameCount % 60 === 0) {
-      mensajeFin.remove();
-      mensajeFin = null;
-    }
+  text("Ángulo:", controlAngulo.x - 70, controlAngulo.y );
+  text("Fuerza:", controlPotencia.x - 70, controlPotencia.y + 5);
+}
+
+function lanzarPelota() {
+  if (!pelotaLanzada) {
+    contadorLanzamientos++;
+    let angulo = radians(controlAngulo.value());
+    let velocidad = 2.5;
+    pelota.vx = cos(angulo) * controlPotencia.value() * velocidad;
+    pelota.vy = sin(angulo) * controlPotencia.value() * velocidad;
+    pelotaLanzada = true;
   }
 }
 
-function dibujarCanasta() {
-  const centroAroX = canasta.x;
-  const centroAroY = canasta.y;
-  const anchoTablero = 140;
-  const altoTablero = 8;
-  
-  // Soporte vertical
-  fill(255, 165, 0);
-  noStroke();
-  rect(centroAroX - 15, centroAroY - 180, 30, 150);
-  
-  let colorTablero = drawingContext.createLinearGradient(
-    centroAroX - anchoTablero/2, centroAroY - 30,
-    centroAroX + anchoTablero/2, centroAroY - 30
-  );
-
-  colorTablero.addColorStop(0, '#FFA500');
-  colorTablero.addColorStop(1, '#FF8C00');
-  drawingContext.fillStyle = colorTablero;
-  rect(centroAroX - anchoTablero/2, centroAroY - 40, anchoTablero, altoTablero);
-
-  fill(255, 40, 40);
-  stroke(180, 0, 0);
-  strokeWeight(2);
-  ellipse(centroAroX, centroAroY, canasta.w + 8, 16);
-  
-  noFill();
-  stroke(255, 100, 100, 150);
-  strokeWeight(3);
-  ellipse(centroAroX, centroAroY, canasta.w, 12);
-
-  noFill();
-  strokeWeight(0.8);
-  const inicioRedY = centroAroY + 2;
-  const finRedY = centroAroY + canasta.alturaRed;
-  const anchoRed = canasta.w * 0.9;
-
-  for(let x = centroAroX - anchoRed/2 + 2; x <= centroAroX + anchoRed/2 - 2; x += 4) {
-    stroke(255, 180, 180, 200);
-    line(x, inicioRedY, centroAroX, finRedY);
-    stroke(255, 220, 220, 80);
-    line(x + 1.5, inicioRedY + 3, centroAroX, finRedY - 8);
+function verificarImpacto() {
+  if (pelota.x < -pelota.r * 2 || pelota.x > width + pelota.r * 2 || pelota.y < -pelota.r * 2) {
+    if (!mensajeFueraRango) mostrarMensajeFueraRango();
+    reiniciarPelota();
+    return;
   }
-
-  for(let y = inicioRedY; y < finRedY; y += 6) {
-    let onda = sin(y * 0.3) * 3;
-    let anchoActual = map(y, inicioRedY, finRedY, anchoRed, anchoRed * 0.3);
-    
-    beginShape();
-    vertex(centroAroX - anchoActual/2 + onda, y);
-    for(let x = centroAroX - anchoActual/2; x <= centroAroX + anchoActual/2; x += 8) {
-      let xOnda = x + sin(y * 0.5 + x * 0.2) * 2;
-      vertex(xOnda, y + abs(x - centroAroX) * 0.1);
-    }
-    vertex(centroAroX + anchoActual/2 + onda, y);
-    endShape();
+  if (pelota.y + pelota.r >= height) {
+    reiniciarPelota();
+    return;
   }
-
-  fill(200);
-  noStroke();
-  rect(centroAroX - 4, centroAroY - 40, 8, 40);
-}
-
-function mostrarmensajeFin() {
-  mensajeFin = createP("¡Ganaste!");
-  mensajeFin.position(width/2 - 50, height/2 - 50);
-  mensajeFin.style('color', 'green');
-  mensajeFin.style('font-size', '48px');
-  mensajeFin.style('font-weight', 'bold');
-  mensajeFin.hide();
-}
-
-function lanzarParticula() {
-  if (!estaLanzada) {
-    let anguloRad = radians(controlAngulo.value());
-    particula.vx = cos(anguloRad) * controlPotencia.value();
-    particula.vy = -sin(anguloRad) * controlPotencia.value();
-    estaLanzada = true;
+  if (dist(pelota.x, pelota.y, aro.x, aro.y) < (aro.w / 2 + pelota.r)) {
+    mostrarMensajeGanaste();
+    reiniciarPelota();
   }
 }
 
-function reiniciarParticula() {
-  particula.x = 100;
-  particula.y = height - 100;
-  particula.vx = 0;
-  particula.vy = 0;
-  estaLanzada = false;
+function mostrarMensajeFueraRango() {
+  if (mensajeFueraRango) mensajeFueraRango.remove();
+  mensajeFueraRango = createP("La pelota salió del rango");
+  mensajeFueraRango.position(width/2 - 150, height/2 - 30);
+  mensajeFueraRango.style('color', '#FF5555');
+  mensajeFueraRango.style('font-size', '20px');
+  mensajeFueraRango.style('font-family', 'PressStart2P-Regular');
+  mensajeFueraRango.style('background-color', 'rgba(0,0,0,0.7)');
+  mensajeFueraRango.style('padding', '20px');
+  mensajeFueraRango.style('border-radius', '10px');
+  mensajeFueraRango.style('text-align', 'center');
+  mensajeFueraRango.style('z-index', '9999');
+  mensajeFueraRango.style('width', '300px');
+  tiempoOcultarMensaje = frameCount + 60;
 }
+
+function gestionarMensajes() {
+  if (mensajeFueraRango && frameCount >= tiempoOcultarMensaje) {
+    mensajeFueraRango.remove();
+    mensajeFueraRango = null;
+  }
+}
+
+function mostrarMensajeGanaste() {
+  if (mensajeGanaste) mensajeGanaste.remove();
+  mensajeGanaste = createP(`¡Ganaste!<br>Intentos: ${contadorLanzamientos}`);
+  mensajeGanaste.position(width/2 - 150, height/2 - 100);
+  mensajeGanaste.style('color', 'gold');
+  mensajeGanaste.style('font-size', '28px');
+  mensajeGanaste.style('text-align', 'center');
+  mensajeGanaste.style('font-family', 'PressStart2P-Regular');
+  mensajeGanaste.style('background-color', 'rgba(0,0,0,0.7)');
+  mensajeGanaste.style('padding', '20px');
+  mensajeGanaste.style('border-radius', '10px');
+  mensajeGanaste.style('z-index', '9999');
+  mensajeGanaste.style('width', '350px');
+  mensajeGanaste.style('line-height', '1.5');
+  noLoop();
+  mostrarBotones();
+}
+function mostrarBotones() {
+  botonReiniciar.show();
+  botonSalir.show();
+}
+
+function reiniciarPelota() {
+  pelota.x = pelota.baseX;
+  pelota.y = pelota.baseY;
+  pelota.vx = 0;
+  pelota.vy = 0;
+  pelotaLanzada = false;
+}
+
+function reiniciarJuego() {
+  contadorLanzamientos = 0;
+  reiniciarPelota();
+  crearAro();
+  if (mensajeGanaste) mensajeGanaste.remove();
+  botonReiniciar.hide();
+  botonSalir.hide();
+  loop();
+}
+
+function salirJuego() {
+  window.location.href = "../pantallaJuegos.html";
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+window.addEventListener('load', function() {
+    const volverBtn = document.getElementById('icono-volver');
+    volverBtn.addEventListener('click', function() {
+    window.location.href = "../pantallaJuegos.html";
+  });
+});
