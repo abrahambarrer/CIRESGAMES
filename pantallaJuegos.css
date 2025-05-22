@@ -260,13 +260,21 @@ button:active {
 
 /* Estilo del menú desplegable */
 .menu-desplegable {
-  display: none; /* Inicialmente oculto */
+  display: none;
   position: absolute;
   background-color: #153243;
   border-radius: 8px;
   padding: 20px;
   width: 200px;
   text-align: center;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+a[id^="actividad"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .menu-desplegable.mostrar {
@@ -276,8 +284,10 @@ button:active {
 .menu-desplegable h3 {
   font-size: 18px;
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px #000;
 }
+
 
 /* Estilo general para los botones del menú */
 .menu-btn {
@@ -302,5 +312,54 @@ button:active {
   border-color: #153243; /* Cambia el color del borde */
 }
 
+.opcion-btn {
+  background-color: #fbc531;
+  color: #153243;
+  border: 2px solid #153243;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  margin-bottom: 10px;
+  width: 100%;
+}
 
+.opcion-btn:hover {
+  transform: scale(1.05);
+  background-color: #ffffff;
+}
 
+/* Estilo específico para el botón de ranking */
+#btnRankingSums {
+  background-color: #fbc531;
+  color: #153243;
+  border: 2px solid #153243;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#btnRankingSums:hover {
+  transform: scale(1.05);
+  background-color: #ffffff;
+  color: #153243;
+}
+
+/* Ajustes para el menú desplegable */
+.menu-desplegable.mostrar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.opcion-btn {
+  width: 90%;
+  margin: 5px 0;
+}
