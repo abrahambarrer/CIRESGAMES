@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Ranking Sumas y Restas</title>
-  <link rel="stylesheet" href="pantallaRankingSums.css">
+  <link rel="stylesheet" href="pantallaRankingHanoi.css">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="header">
         <div class="university">Universidad Veracruzana</div>
         <div class="center-name">Centro de Investigación de Recursos Energéticos y Sustentables</div>
-        <div class="game-title">TOP 3 - DESAFIOS MATEMÁTICOS</div>
+        <div class="game-title">TOP 3 - TORRE DE HANOI</div>
     </div>
     
     <div class="content-box">
@@ -50,19 +50,18 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Cargar datos del ranking
-            const rankingData = JSON.parse(localStorage.getItem('rankingSums')) || [];
+            const rankingData = JSON.parse(localStorage.getItem('rankingHanoi')) || [];
             const container = document.getElementById('ranking-container');
             const rows = container.querySelectorAll('.player-row');
             
             // Mostrar las puntuaciones disponibles
-            rankingData.forEach((jugador, index) => {
+           rankingData.forEach((jugador, index) => {
                 if (index < 3) {
                     rows[index].querySelector('.player-name').textContent = jugador.nombre;
-                    rows[index].querySelector('.player-score').textContent = `${jugador.puntos} PTS`;
+                    rows[index].querySelector('.player-score').textContent = `${jugador.movimientos} MOV`;
                     rows[index].querySelector('.player-time').textContent = `${jugador.tiempo}s`;
                 }
             });
-            
             // Control de sonido
             const iconoSonido = document.getElementById('iconoSonido');
             iconoSonido.addEventListener('click', function() {
@@ -72,7 +71,7 @@
             
             // Botón regresar
             document.getElementById('btnRegresar').addEventListener('click', function() {
-                window.location.href = '../pantallaJuegos.html';
+                window.location.href = '../../pantallaJuegos.html';
             });
         });
     </script>

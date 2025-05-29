@@ -10,6 +10,7 @@ let musicaFondo;
 let confettiColor = [];
 let confetti = [];
 let boton;
+let tiempoFin;   
 
 function preload() {
   pressStart2P = loadFont('fonts/PressStart2P-Regular.ttf');
@@ -17,32 +18,32 @@ function preload() {
   anverso = loadImage("assets/anverso.png");
   reversoImagenes.push(loadImage("assets/cilindro.png"));
   reversoImagenes.push(loadImage("assets/circulo.png"));
-  reversoImagenes.push(loadImage("assets/cono.png"));
-  reversoImagenes.push(loadImage("assets/cruz.png"));
-  reversoImagenes.push(loadImage("assets/cuadrado.png"));
-  reversoImagenes.push(loadImage("assets/cubo.png"));
-  reversoImagenes.push(loadImage("assets/cuerposGeometricos.png"));
-  reversoImagenes.push(loadImage("assets/dodecaedro.png"));
-  reversoImagenes.push(loadImage("assets/esfera.png"));
-  reversoImagenes.push(loadImage("assets/estrella.png"));
-  reversoImagenes.push(loadImage("assets/figurasPlanas.png"));
-  reversoImagenes.push(loadImage("assets/hexagono.png"));
-  reversoImagenes.push(loadImage("assets/juegoGeometrico.png"));
-  reversoImagenes.push(loadImage("assets/lineasCurvas.png"));
-  reversoImagenes.push(loadImage("assets/lineasParalelas.png"));
-  reversoImagenes.push(loadImage("assets/octaedro.png"));
-  reversoImagenes.push(loadImage("assets/ovalo.png"));
-  reversoImagenes.push(loadImage("assets/paralelepipedo.png"));
-  reversoImagenes.push(loadImage("assets/pentagono.png"));
-  reversoImagenes.push(loadImage("assets/piramideCuadrangular.png"));
-  reversoImagenes.push(loadImage("assets/piramideHexagonal.png"));
-  reversoImagenes.push(loadImage("assets/piramideTriangular.png"));
-  reversoImagenes.push(loadImage("assets/prismaTriangular.png"));
-  reversoImagenes.push(loadImage("assets/rectangulo.png"));
-  reversoImagenes.push(loadImage("assets/rombo.png"));
-  reversoImagenes.push(loadImage("assets/trapecio.png"));
-  reversoImagenes.push(loadImage("assets/trapezoide.png"));
-  reversoImagenes.push(loadImage("assets/triangulo.png"));
+  // reversoImagenes.push(loadImage("assets/cono.png"));
+  // reversoImagenes.push(loadImage("assets/cruz.png"));
+  // reversoImagenes.push(loadImage("assets/cuadrado.png"));
+  // reversoImagenes.push(loadImage("assets/cubo.png"));
+  // reversoImagenes.push(loadImage("assets/cuerposGeometricos.png"));
+  // reversoImagenes.push(loadImage("assets/dodecaedro.png"));
+  // reversoImagenes.push(loadImage("assets/esfera.png"));
+  // reversoImagenes.push(loadImage("assets/estrella.png"));
+  // reversoImagenes.push(loadImage("assets/figurasPlanas.png"));
+  // reversoImagenes.push(loadImage("assets/hexagono.png"));
+  // reversoImagenes.push(loadImage("assets/juegoGeometrico.png"));
+  // reversoImagenes.push(loadImage("assets/lineasCurvas.png"));
+  // reversoImagenes.push(loadImage("assets/lineasParalelas.png"));
+  // reversoImagenes.push(loadImage("assets/octaedro.png"));
+  // reversoImagenes.push(loadImage("assets/ovalo.png"));
+  // reversoImagenes.push(loadImage("assets/paralelepipedo.png"));
+  // reversoImagenes.push(loadImage("assets/pentagono.png"));
+  // reversoImagenes.push(loadImage("assets/piramideCuadrangular.png"));
+  // reversoImagenes.push(loadImage("assets/piramideHexagonal.png"));
+  // reversoImagenes.push(loadImage("assets/piramideTriangular.png"));
+  // reversoImagenes.push(loadImage("assets/prismaTriangular.png"));
+  // reversoImagenes.push(loadImage("assets/rectangulo.png"));
+  // reversoImagenes.push(loadImage("assets/rombo.png"));
+  // reversoImagenes.push(loadImage("assets/trapecio.png"));
+  // reversoImagenes.push(loadImage("assets/trapezoide.png"));
+  // reversoImagenes.push(loadImage("assets/triangulo.png"));
 
   sonidoVoltear = loadSound('sounds/cardFlip.mp3');
   sonidoMatch = loadSound('sounds/match.wav');
@@ -55,10 +56,10 @@ function setup() {
   document.getElementById('loader').style.display = 'none';
   document.getElementById('canvas-container').style.display = 'block';
   
-  partida = new Partida(7, 8, anverso, reversoImagenes);
-  tiempoInicio = millis(); // Guarda el tiempo inicial en milisegundos
-  musicaFondo.setVolume(0.2); // Volumen bajo
-  musicaFondo.loop(); // Reproduce en bucle
+  partida = new Partida(2, 2, anverso, reversoImagenes);
+  tiempoInicio = millis(); 
+  musicaFondo.setVolume(0.2); 
+  musicaFondo.loop(); 
 
   confettiColor = [color('#00aeef'), color('#ec008c'), color('#72c8b6')];
   for (let i = 0; i < 100; i++) {
@@ -71,7 +72,18 @@ function draw() {
   partida.colocarCartas();
 
   // Calcular tiempo transcurrido
-  tiempoActual = millis() - tiempoInicio;
+  if (!partida.terminada && partida.numeroMatches === partida.filas * partida.columnas / 2) {
+    partida.terminada = true;
+    tiempoFin = millis();
+    guardarRankingMemorama();
+  }
+
+  // Calcular tiempo: si ya terminó, usar tiempoFin
+  if (!partida.terminada) {
+    tiempoActual = millis() - tiempoInicio;
+  } else {
+    tiempoActual = tiempoFin - tiempoInicio;
+  }
 
   let segundosTotales = int(tiempoActual / 1000);
   let minutos = floor(segundosTotales / 60);
@@ -139,9 +151,9 @@ class Carta {
     this.angulo = 0;
     this.volteandoHacia = null;
 
-    this.opacity = 255;      // opacidad inicial (visible)
-    this.escalaDesaparecer = 1;  // escala inicial para desaparecer
-    this.animandoDesaparecer = false; // indica si está desapareciendo
+    this.opacity = 255;
+    this.escalaDesaparecer = 1; 
+    this.animandoDesaparecer = false; 
   }
 
   show() {
@@ -159,18 +171,18 @@ class Carta {
     }
   
     if (this.animandoDesaparecer) {
-      this.opacity = lerp(this.opacity, 0, 0.1); // desvanecimiento
-      this.escalaDesaparecer = lerp(this.escalaDesaparecer, 0, 0.1); // escala a 0
+      this.opacity = lerp(this.opacity, 0, 0.1);
+      this.escalaDesaparecer = lerp(this.escalaDesaparecer, 0, 0.1);
   
       if (this.opacity < 1 && this.escalaDesaparecer < 0.01) {
         this.opacity = 0;
         this.escalaDesaparecer = 0;
         this.animandoDesaparecer = false;
-        this.matched = true; // marca como desaparecida
+        this.matched = true;
       }
     }
   
-    if (this.opacity <= 0) return; // no dibujar si ya está oculta
+    if (this.opacity <= 0) return;
   
     let escalaX = cos(this.angulo);
     let mostrandoReverso = (this.animando && escalaX < 0) ? !this.revelada : this.revelada;
@@ -199,12 +211,11 @@ class Carta {
   }
 
   voltear() {
-    if (this.animando) return; // ya está animando
+    if (this.animando) return;
 
     this.animando = true;
-    this.volteandoHacia = !this.revelada; // hacia dónde irá el volteo
-    this.angulo = 0; // comenzar animación
-    // this.revelada = !this.revelada;
+    this.volteandoHacia = !this.revelada;
+    this.angulo = 0;
 
     if (sonidoVoltear && !this.revelada) {
       sonidoVoltear.play();
@@ -224,6 +235,7 @@ class Partida {
     this.imagenesReverso = imagenesReverso;
     this.paresRevelados = 0;
     this.numeroMatches = 0;
+    this.terminada = false; 
 
 
     this.cartas = [];
@@ -305,7 +317,7 @@ class Partida {
           this.primeraCarta = carta;
         } else {
           this.locked = true;
-          this.paresRevelados++; // <- se cuenta cada intento de par
+          this.paresRevelados++; 
           this.comprobarMatch(carta);
         }        
         break;
@@ -368,4 +380,39 @@ class Confetti {
 
     this.y += this.speed;
   }
+}
+
+function guardarRankingMemorama() {
+    const nombreJugador = localStorage.getItem('nombreUsuario') || 'Anónimo';
+    let ranking = JSON.parse(localStorage.getItem('rankingMemorama')) || [];
+
+    const nuevaPuntuacion = {
+        nombre: nombreJugador,
+        intentos: partida.paresRevelados,
+        tiempo: tiempoFin
+    };
+
+    const indiceExistente = ranking.findIndex(item => item.nombre === nombreJugador);
+
+    if (indiceExistente !== -1) {
+        // Reemplazar solo si tiene menos intentos o igual intentos y mejor tiempo
+        const existente = ranking[indiceExistente];
+        if (
+            nuevaPuntuacion.intentos < existente.intentos ||
+            (nuevaPuntuacion.intentos === existente.intentos && nuevaPuntuacion.tiempo < existente.tiempo)
+        ) {
+            ranking[indiceExistente] = nuevaPuntuacion;
+        }
+    } else {
+        ranking.push(nuevaPuntuacion);
+    }
+
+    // Ordenar por intentos (ascendente), luego tiempo (ascendente)
+    ranking.sort((a, b) => a.intentos - b.intentos || a.tiempo - b.tiempo);
+
+    // Guardar solo los 3 mejores
+    ranking = ranking.slice(0, 3);
+
+    // Guardar en localStorage
+    localStorage.setItem('rankingMemorama', JSON.stringify(ranking));
 }

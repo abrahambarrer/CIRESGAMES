@@ -165,8 +165,9 @@ function Enemy(x, y, velX, velY) {
 function mostrarFinDelJuego() {
   const mensaje = document.getElementById("mensaje-fin");
   mensaje.style.display = "block";
-  noLoop(); // Detiene draw()
-  bgMusic.stop(); // Opcional: detener música al perder
+  noLoop();
+  bgMusic.stop();
+  guardarRankingMathBox();
 }
 
 function draw(){
@@ -276,3 +277,34 @@ window.addEventListener('load', function() {
   loop();
   });
 });
+
+function guardarRankingMathBox() {
+    const nombreJugador = localStorage.getItem('nombreUsuario') || 'Anónimo';
+    let ranking = JSON.parse(localStorage.getItem('rankingMathBox')) || [];
+
+    const nuevaPuntuacion = {
+        nombre: nombreJugador,
+        puntos: score,
+        fecha: new Date().toLocaleDateString()
+    };
+
+    const indiceExistente = ranking.findIndex(item => item.nombre === nombreJugador);
+
+    if (indiceExistente !== -1) {
+        // Si la nueva puntuación es mayor, actualizar
+        if (score > ranking[indiceExistente].puntos) {
+            ranking[indiceExistente] = nuevaPuntuacion;
+        }
+    } else {
+        ranking.push(nuevaPuntuacion);
+    }
+
+    // Ordenar por puntos de forma descendente
+    ranking.sort((a, b) => b.puntos - a.puntos);
+
+    // Conservar solo los 3 mejores puntajes
+    ranking = ranking.slice(0, 3);
+
+    // Guardar en localStorage
+    localStorage.setItem('rankingMathBox', JSON.stringify(ranking));
+}

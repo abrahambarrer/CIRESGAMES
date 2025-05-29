@@ -21,6 +21,7 @@ body {
     background-size: 60px 60px;
     background-position: 0 0;
     animation: slide 4s infinite linear;
+    overflow: hidden;
   }
   
   @keyframes slide {

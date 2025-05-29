@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" href="#">
   <title>Torre de Hanoi</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,10 +20,12 @@
 
     <div class="header-center">
       <div id="counter">Movimientos: 0 / 63</div>
+      <div id="timer">Tiempo: 0s</div>
     </div>
 
     <div class="header-right">
       <button id="resetButton">Reiniciar</button>
+      
     </div>
 </header>
   <main>
@@ -35,6 +37,7 @@
   <div id="overlay">
     <h2>¡Completado!</h2>
     <p id="final-score"></p>
+    <p id="final-time"></p> 
     <button id="newGame">Nueva Partida</button>
     <button onclick="backToMenu()">Salir</button>
   </div>

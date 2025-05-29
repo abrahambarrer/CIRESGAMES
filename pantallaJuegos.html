@@ -56,9 +56,33 @@
       <h3>Opciones</h3>
       <button class="opcion-btn iniciar-btn">Iniciar</button>
       <button class="opcion-btn ranking-btn" 
-              id="btnRankingSums" 
+        id="ranking-1" 
+        style="display: none;"
+        onclick="window.location.href='memorama/ranking/pantallaRankingMemorama.html'">
+        Ranking
+      </button>
+      <button class="opcion-btn ranking-btn" 
+              id="ranking-3" 
               style="display: none;"
-              onclick="window.location.href='rankings/pantallaRankingSums.html'">
+              onclick="window.location.href='sums/ranking/pantallaRankingSums.html'">
+        Ranking
+      </button>
+      <button class="opcion-btn ranking-btn" 
+              id="ranking-4" 
+              style="display: none;"
+              onclick="window.location.href='mathBox/ranking/pantallaRankingMathBox.html'">
+        Ranking
+      </button>
+      <button class="opcion-btn ranking-btn" 
+              id="ranking-5" 
+              style="display: none;"
+              onclick="window.location.href='tiroParabolico/ranking/pantallaRankingTiroParabolico.html'">
+        Ranking
+      </button>
+      <button class="opcion-btn ranking-btn" 
+              id="ranking-6" 
+              style="display: none;"
+              onclick="window.location.href='hanoi/ranking/pantallaRankingHanoi.html'">
         Ranking
       </button>
     </div>
@@ -91,10 +115,12 @@
         const rankingBtn = document.getElementById('btnRankingSums');
         
         // Mostrar u ocultar el botón Ranking según la actividad
-        if (actividadSeleccionada === '3') {
-          rankingBtn.style.display = 'block';
-        } else {
-          rankingBtn.style.display = 'none';
+        document.querySelectorAll('.ranking-btn').forEach(btn => btn.style.display = 'none');
+
+        // Mostrar solo el ranking correspondiente
+        const rankingActual = document.getElementById(`ranking-${actividadSeleccionada}`);
+        if (rankingActual) {
+          rankingActual.style.display = 'block';
         }
         
         menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight - 5}px`;

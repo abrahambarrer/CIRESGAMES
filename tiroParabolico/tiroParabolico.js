@@ -308,6 +308,7 @@ function mostrarMensajeGanaste() {
   mensajeGanaste.style('z-index', '9999');
   mensajeGanaste.style('width', '350px');
   mensajeGanaste.style('line-height', '1.5');
+  guardarRankingTiroParabolico();
   noLoop();
   mostrarBotones();
 }
@@ -348,3 +349,34 @@ window.addEventListener('load', function() {
     window.location.href = "../pantallaJuegos.html";
   });
 });
+
+function guardarRankingTiroParabolico() {
+    const nombreJugador = localStorage.getItem('nombreUsuario') || 'Anónimo';
+    let ranking = JSON.parse(localStorage.getItem('rankingTiroParabolico')) || [];
+
+    const nuevaPuntuacion = {
+        nombre: nombreJugador,
+        lanzamientos: contadorLanzamientos,
+        fecha: new Date().toLocaleDateString()
+    };
+
+    const indiceExistente = ranking.findIndex(item => item.nombre === nombreJugador);
+
+    if (indiceExistente !== -1) {
+        // Si la nueva puntuación es mejor (menos lanzamientos), actualizar
+        if (contadorLanzamientos < ranking[indiceExistente].lanzamientos) {
+            ranking[indiceExistente] = nuevaPuntuacion;
+        }
+    } else {
+        ranking.push(nuevaPuntuacion);
+    }
+
+    // Ordenar por menor número de lanzamientos
+    ranking.sort((a, b) => a.lanzamientos - b.lanzamientos);
+
+    // Mantener solo las 3 mejores puntuaciones
+    ranking = ranking.slice(0, 3);
+
+    // Guardar en localStorage
+    localStorage.setItem('rankingTiroParabolico', JSON.stringify(ranking));
+}
