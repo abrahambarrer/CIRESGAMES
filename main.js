@@ -22,7 +22,7 @@ const createWindow = () => {
   // Maximizar la ventana al iniciar
   win.maximize()
 
-  win.loadFile('pantallaInicio.html')
+  win.loadFile('intro.html')
 }
 
 app.whenReady().then(() => {
