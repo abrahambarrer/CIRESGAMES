@@ -1,4 +1,6 @@
 const { app, BrowserWindow, screen, Menu } = require('electron/main')
+const { ipcMain } = require('electron');
+
 
 const createWindow = () => {
   // Obtener el tamaño de la pantalla principal
@@ -34,6 +36,11 @@ app.whenReady().then(() => {
     }
   })
 })
+
+ipcMain.on('cerrar-ventana', (event) => {
+  const ventana = BrowserWindow.fromWebContents(event.sender);
+  ventana.close();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

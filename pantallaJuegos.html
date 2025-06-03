@@ -5,9 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pantalla de Juegos</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="pantallaJuegos.css" />
+  <link rel="stylesheet" href="styles/pantallaJuegos.css" />
 </head>
 <body>
+  <!-- Fondo animado de círculos -->
+  <div class="area">
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+
   <div class="contenedor-juegos">
     <header class="header">
       <h1 class="titulo">CIRESGAMES</h1>
@@ -16,34 +32,34 @@
 
     <div class="botones-actividades">
       <div class="actividades-container1">
-        <a id="actividad1-link" href="memorama/index.html" style="display: none;"></a>
+        <a id="actividad1-link" href="juegos/memorama/index.html" style="display: none;"></a>
         <button class="actividad-btn" data-actividad="1">
           Memorama
           <video src="assets/Videos/memorama.mp4" muted loop class="video-hover"></video>
         </button>
-        <a id="actividad2-link" href="loteria/index.html" style="display: none;"></a>
+        <a id="actividad2-link" href="juegos/loteria/index.html" style="display: none;"></a>
         <button class="actividad-btn" data-actividad="2">
           Lotería
           <video src="assets/Videos/loteria.mp4" muted loop class="video-hover"></video>
         </button>
-        <a id="actividad3-link" href="sums/index.html" style="display: none;"></a>
+        <a id="actividad3-link" href="juegos/sums/index.html" style="display: none;"></a>
         <button class="actividad-btn" data-actividad="3">
           Sums
           <video src="assets/Videos/sums.mp4" muted loop class="video-hover"></video>
         </button>
       </div>
       <div class="actividades-container2">
-        <a id="actividad4-link" href="mathBox/index.html" style="display: none;"></a>
+        <a id="actividad4-link" href="juegos/mathBox/index.html" style="display: none;"></a>
         <button class="actividad-btn" data-actividad="4">
-          Mathbox
+          MathBox
           <video src="assets/Videos/mathbox.mp4" muted loop class="video-hover"></video>
         </button>
-        <a id="actividad5-link" href="tiroParabolico/index.html" style="display: none;"></a>
+        <a id="actividad5-link" href="juegos/tiroParabolico/index.html" style="display: none;"></a>
         <button class="actividad-btn" data-actividad="5">
-          Tiro parabólico
+          Tiro Parabólico
           <video src="assets/Videos/tiroParabolico.mp4" muted loop class="video-hover"></video>
         </button>
-        <a id="actividad6-link" href="/hanoi/index.html" style="display: none;"></a>
+        <a id="actividad6-link" href="juegos/hanoi/index.html" style="display: none;"></a>
         <button class="actividad-btn" data-actividad="6">
           Torre de Hanoi
           <video src="assets/Videos/hanoi.mp4" muted loop class="video-hover"></video>
