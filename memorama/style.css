@@ -1,6 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  font-family: 'Press Start 2P';
 }
 
 canvas {
@@ -64,24 +65,7 @@ body {
   width: 100vw;
   height: 100vh;
 }
-
-/* Boton */
-
-.btn-main {
-  padding: 1rem 2rem;
-  background-color: #fcd24f;
-  color: black;
-  border: 0.3rem solid black;
-  border-radius: 25px;
-  font-family: 'PressStart2P-Regular';
-  text-align: center;
-  
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-
-  position: relative;
-}
-
+/* Botones */
 #icono-volver {
   position: absolute;
   top: 20px;
@@ -94,4 +78,55 @@ body {
 
 #icono-volver:hover {
   opacity: 0.7;
+}
+
+
+button {
+  background-color: #153243;
+  color: white;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P';
+  font-size: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
+  background-color: #ffffff;
+  color: #153243;
+  border-color: #153243;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+#reload {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-direction: column;
+  z-index: 1000;
+}
+#overlay.show {
+  display: flex;
+}
+#overlay button {
+  margin: 10px;
 }

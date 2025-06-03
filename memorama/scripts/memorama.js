@@ -18,32 +18,32 @@ function preload() {
   anverso = loadImage("assets/anverso.png");
   reversoImagenes.push(loadImage("assets/cilindro.png"));
   reversoImagenes.push(loadImage("assets/circulo.png"));
-  // reversoImagenes.push(loadImage("assets/cono.png"));
-  // reversoImagenes.push(loadImage("assets/cruz.png"));
-  // reversoImagenes.push(loadImage("assets/cuadrado.png"));
-  // reversoImagenes.push(loadImage("assets/cubo.png"));
-  // reversoImagenes.push(loadImage("assets/cuerposGeometricos.png"));
-  // reversoImagenes.push(loadImage("assets/dodecaedro.png"));
-  // reversoImagenes.push(loadImage("assets/esfera.png"));
-  // reversoImagenes.push(loadImage("assets/estrella.png"));
-  // reversoImagenes.push(loadImage("assets/figurasPlanas.png"));
-  // reversoImagenes.push(loadImage("assets/hexagono.png"));
-  // reversoImagenes.push(loadImage("assets/juegoGeometrico.png"));
-  // reversoImagenes.push(loadImage("assets/lineasCurvas.png"));
-  // reversoImagenes.push(loadImage("assets/lineasParalelas.png"));
-  // reversoImagenes.push(loadImage("assets/octaedro.png"));
-  // reversoImagenes.push(loadImage("assets/ovalo.png"));
-  // reversoImagenes.push(loadImage("assets/paralelepipedo.png"));
-  // reversoImagenes.push(loadImage("assets/pentagono.png"));
-  // reversoImagenes.push(loadImage("assets/piramideCuadrangular.png"));
-  // reversoImagenes.push(loadImage("assets/piramideHexagonal.png"));
-  // reversoImagenes.push(loadImage("assets/piramideTriangular.png"));
-  // reversoImagenes.push(loadImage("assets/prismaTriangular.png"));
-  // reversoImagenes.push(loadImage("assets/rectangulo.png"));
-  // reversoImagenes.push(loadImage("assets/rombo.png"));
-  // reversoImagenes.push(loadImage("assets/trapecio.png"));
-  // reversoImagenes.push(loadImage("assets/trapezoide.png"));
-  // reversoImagenes.push(loadImage("assets/triangulo.png"));
+  reversoImagenes.push(loadImage("assets/cono.png"));
+  reversoImagenes.push(loadImage("assets/cruz.png"));
+  reversoImagenes.push(loadImage("assets/cuadrado.png"));
+  reversoImagenes.push(loadImage("assets/cubo.png"));
+  reversoImagenes.push(loadImage("assets/cuerposGeometricos.png"));
+  reversoImagenes.push(loadImage("assets/dodecaedro.png"));
+  reversoImagenes.push(loadImage("assets/esfera.png"));
+  reversoImagenes.push(loadImage("assets/estrella.png"));
+  reversoImagenes.push(loadImage("assets/figurasPlanas.png"));
+  reversoImagenes.push(loadImage("assets/hexagono.png"));
+  reversoImagenes.push(loadImage("assets/juegoGeometrico.png"));
+  reversoImagenes.push(loadImage("assets/lineasCurvas.png"));
+  reversoImagenes.push(loadImage("assets/lineasParalelas.png"));
+  reversoImagenes.push(loadImage("assets/octaedro.png"));
+  reversoImagenes.push(loadImage("assets/ovalo.png"));
+  reversoImagenes.push(loadImage("assets/paralelepipedo.png"));
+  reversoImagenes.push(loadImage("assets/pentagono.png"));
+  reversoImagenes.push(loadImage("assets/piramideCuadrangular.png"));
+  reversoImagenes.push(loadImage("assets/piramideHexagonal.png"));
+  reversoImagenes.push(loadImage("assets/piramideTriangular.png"));
+  reversoImagenes.push(loadImage("assets/prismaTriangular.png"));
+  reversoImagenes.push(loadImage("assets/rectangulo.png"));
+  reversoImagenes.push(loadImage("assets/rombo.png"));
+  reversoImagenes.push(loadImage("assets/trapecio.png"));
+  reversoImagenes.push(loadImage("assets/trapezoide.png"));
+  reversoImagenes.push(loadImage("assets/triangulo.png"));
 
   sonidoVoltear = loadSound('sounds/cardFlip.mp3');
   sonidoMatch = loadSound('sounds/match.wav');
@@ -56,29 +56,34 @@ function setup() {
   document.getElementById('loader').style.display = 'none';
   document.getElementById('canvas-container').style.display = 'block';
   
-  partida = new Partida(2, 2, anverso, reversoImagenes);
+  partida = new Partida(7, 8, anverso, reversoImagenes);
   tiempoInicio = millis(); 
   musicaFondo.setVolume(0.2); 
   musicaFondo.loop(); 
-
-  confettiColor = [color('#00aeef'), color('#ec008c'), color('#72c8b6')];
-  for (let i = 0; i < 100; i++) {
-    confetti[i] = new Confetti(random(0, width), random(-height, 0), random(-1, 1));
-  }
 }
 
 function draw() {
   background(220);
   partida.colocarCartas();
 
-  // Calcular tiempo transcurrido
   if (!partida.terminada && partida.numeroMatches === partida.filas * partida.columnas / 2) {
     partida.terminada = true;
     tiempoFin = millis();
     guardarRankingMemorama();
+
+    let segundosTotalesFin = int((tiempoFin - tiempoInicio) / 1000);
+    let minutosFin = floor(segundosTotalesFin / 60);
+    let segundosFin = segundosTotalesFin % 60;
+    let tiempoTextoFin = nf(minutosFin, 2) + ':' + nf(segundosFin, 2);
+
+    // Mostrar el overlay
+    document.getElementById('final-score').innerHTML = `
+      Intentos: ${partida.paresRevelados}<br>
+      Tiempo: ${tiempoTextoFin}
+    `;
+    document.getElementById('overlay').classList.add('show');
   }
 
-  // Calcular tiempo: si ya terminó, usar tiempoFin
   if (!partida.terminada) {
     tiempoActual = millis() - tiempoInicio;
   } else {
@@ -91,46 +96,13 @@ function draw() {
 
   let tiempoTexto = nf(minutos, 2) + ':' + nf(segundos, 2);
   let paresTexto = "Intentos: " + partida.paresRevelados;
-  // Dibujar cronómetro en esquina superior izquierda
+
   fill(0);
   textSize(20);
   textFont(pressStart2P);
   textAlign(RIGHT, TOP);
   text(tiempoTexto, width - 20, 20);
   text(paresTexto, width - 20, 80);
-
-  if (partida.numeroMatches === partida.filas * partida.columnas / 2){
-    mostrarConfetti();
-  }
-}
-
-function mostrarConfetti() {
-  for (let i = 0; i < confetti.length / 2; i++) {
-    confetti[i].confettiDisplay();
-
-    if (confetti[i].y > height) {
-      confetti[i] = new Confetti(random(0, width), random(-height, 0), random(-1, 1));
-    }
-  }
-
-  for (let i = int(confetti.length / 2); i < confetti.length; i++) {
-    confetti[i].confettiDisplay();
-
-    if (confetti[i].y > height) {
-      confetti[i] = new Confetti(random(0, width), random(-height, 0), random(-1, 1));
-    }
-  }
-}
-
-window.addEventListener('load', function() {
-    const volverBtn = document.getElementById('icono-volver');
-    volverBtn.addEventListener('click', function() {
-    window.location.href = "../pantallaJuegos.html";
-  });
-});
-
-function mousePressed() {
-  partida.mousePressed(mouseX, mouseY);
 }
 
 class Carta {
@@ -200,7 +172,6 @@ class Carta {
     pop();
   }
   
-
   underMouse(mousex, mousey) {
     const limiteIzquierdo = this.x;
     const limiteDerecho = this.x + this.tamanio;
@@ -309,18 +280,28 @@ class Partida {
 
   mousePressed(mousex, mousey) {
     if (this.locked) return;
-    for (let carta of this.cartas){
-      if (carta.underMouse(mouseX, mouseY) && !carta.revelada && !carta.matched){
+
+    for (let carta of this.cartas) {
+      if (
+        carta.underMouse(mousex, mousey) &&
+        !carta.revelada &&
+        !carta.animando &&
+        !carta.matched &&
+        carta !== this.primeraCarta
+      ) {
         carta.voltear();
 
         if (this.primeraCarta == null) {
+          // Si no hay carta “abierta” aún, la guardamos como primeraCarta
           this.primeraCarta = carta;
         } else {
+          // Si ya había una primeraCarta, bloqueamos entradas y comparamos
           this.locked = true;
-          this.paresRevelados++; 
+          this.paresRevelados++;
           this.comprobarMatch(carta);
-        }        
-        break;
+        }
+
+        break; // Salimos del for en cuanto encontramos la carta válida
       }
     }
   }
@@ -341,44 +322,6 @@ class Partida {
       this.primeraCarta = null;
       this.locked = false;
     }, 1000)
-  }
-}
-
-class Confetti {
-  constructor(_x, _y, _s) {
-    this.x = _x;
-    this.y = _y;
-    this.speed = _s;
-    this.time = random(0, 100);
-    this.color = random(confettiColor);
-    this.amp = random(2, 30);
-    this.phase = random(0.5, 2);
-    this.size = random(width / 25, height / 50);
-    this.form = round(random(0, 1));
-  }
-
-  confettiDisplay() {
-    fill(this.color);
-    // blendMode(SCREEN);
-    noStroke();
-    push();
-    translate(this.x, this.y);
-    translate(this.amp * sin(this.time * this.phase), this.speed * cos(2 * this.time * this.phase));
-    rotate(this.time);
-    rectMode(CENTER);
-    scale(cos(this.time / 4), sin(this.time / 4));
-    if (this.form === 0) {
-      rect(0, 0, this.size, this.size / 2);
-    } else {
-      ellipse(0, 0, this.size);
-    }
-    pop();
-
-    this.time = this.time + 0.1;
-
-    this.speed += 1 / 200;
-
-    this.y += this.speed;
   }
 }
 
@@ -415,4 +358,32 @@ function guardarRankingMemorama() {
 
     // Guardar en localStorage
     localStorage.setItem('rankingMemorama', JSON.stringify(ranking));
+}
+
+function iniciarNuevaPartida() {
+  document.getElementById('overlay').classList.remove('show');
+
+  partida = new Partida(7, 8, anverso, reversoImagenes);
+  tiempoInicio = millis();
+  tiempoFin = null;
+}
+
+
+window.addEventListener('load', function() {
+    const volverBtn = document.getElementById('icono-volver');
+    volverBtn.addEventListener('click', function() {
+    window.location.href = "../pantallaJuegos.html";
+    
+  });
+});
+
+document.getElementById('reload').addEventListener('click', iniciarNuevaPartida);
+document.getElementById('newGame').addEventListener('click', iniciarNuevaPartida);
+
+function backToMenu() {
+  window.location.href = "../pantallaJuegos.html";
+}
+
+function mousePressed() {
+  partida.mousePressed(mouseX, mouseY);
 }

@@ -108,7 +108,6 @@ function onTouchStart(e) {
 
   draggedDisk = target;
 
-  // Escuchar en el documento para detectar el touchend
   const onTouchEnd = (endEvent) => {
     const touchEnd = endEvent.changedTouches[0];
     const elementBelow = document.elementFromPoint(touchEnd.clientX, touchEnd.clientY);
@@ -144,13 +143,11 @@ function guardarRankingHanoi(movimientos, tiempo) {
         fecha: new Date().toLocaleDateString()
     };
 
-    // Verificar si ya existe una puntuación para este jugador
     const indiceExistente = ranking.findIndex(item => item.nombre === nombreJugador);
 
     if (indiceExistente !== -1) {
         const actual = ranking[indiceExistente];
 
-        // Se guarda si hizo menos movimientos o mismo movimientos en menor tiempo
         if (
             movimientos < actual.movimientos ||
             (movimientos === actual.movimientos && tiempo < actual.tiempo)
@@ -161,12 +158,9 @@ function guardarRankingHanoi(movimientos, tiempo) {
         ranking.push(nuevaEntrada);
     }
 
-    // Ordenar: menos movimientos primero, luego menor tiempo
     ranking.sort((a, b) => a.movimientos - b.movimientos || a.tiempo - b.tiempo);
 
-    // Mantener solo los 3 mejores
     ranking = ranking.slice(0, 3);
 
-    // Guardar en localStorage
     localStorage.setItem('rankingHanoi', JSON.stringify(ranking));
 }
