@@ -1,5 +1,3 @@
-// renderer.js
-
 const { ipcRenderer } = require('electron');
 
 // Ejecutar cuando el DOM esté listo
