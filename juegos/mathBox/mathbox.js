@@ -256,7 +256,7 @@ window.addEventListener('load', function() {
   const volverBtn = document.getElementById('btn-volver');
   volverBtn.addEventListener('click', function() {
     bgMusic.stop();
-    window.location.href = "../pantallaJuegos.html";
+    window.location.href = "../../pantallaJuegos.html";
   });
 
   const reiniciarBtn = document.getElementById('reiniciar');
