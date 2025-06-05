@@ -85,7 +85,16 @@
     <a href="https://www.uv.mx/" target="_blank" class="icono-uv" rel="noreferrer"></a>
     <div class="icono-sonido sonido-activado" id="iconoSonido"></div>
   </div>
-  
+
+  <script>
+    // Cambiar el icono de sonido
+    const icono = document.getElementById('iconoSonido');
+    icono.addEventListener('click', () => {
+      icono.classList.toggle('sonido-activado');
+      icono.classList.toggle('sonido-desactivado');
+    });
+  </script>
+
   <script src="renderer.js"></script>
 </body>
 </html>

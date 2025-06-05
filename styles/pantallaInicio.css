@@ -204,7 +204,7 @@ body {
 }
 
 .icono-sonido {
-  background-image: url('assets/Iconos/audio-on.png');
+  background-image: url('../assets/Iconos/audio-on.png');
   top: 5%;
   right: 6%;
   transform: translate(-50%, -50%);
@@ -212,18 +212,18 @@ body {
 }
 
 .icono-uv {
-  background-image: url('assets/Iconos/icono-uv.png');
+  background-image: url('../assets/Iconos/icono-uv.png');
   top: 5%;
   right: 4%;
   transform: translate(50%, -50%);
 }
 
 .sonido-activado {
-  background-image: url('assets/Iconos/audio-on.png');
+  background-image: url('../assets/Iconos/audio-on.png');
 }
 
 .sonido-desactivado {
-  background-image: url('assets/Iconos/audio-off.png');
+  background-image: url('../assets/Iconos/audio-off.png');
 }
 
 .icono-sonido:hover,
