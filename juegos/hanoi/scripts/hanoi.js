@@ -3,6 +3,8 @@ let moveCount = 0;
 let draggedDisk = null;
 let startTime = null;
 let timerInterval = null;
+const bgMusic = document.getElementById('bg-music');
+const putSound = document.getElementById('put-sound');
 
 function startTimer() {
   startTime = Date.now();
@@ -30,10 +32,11 @@ function resetGame() {
   document.querySelectorAll('.pole').forEach(pole => pole.innerHTML = '');
   moveCount = 0;
   updateCounter();
+
   const pole0 = document.getElementById('pole-0');
   for (let i = totalDisks; i >= 1; i--) {
     const disk = document.createElement('div');
-    disk.className = 'disk';
+    disk.className = `disk disk-${i}`;
     disk.style.width = `${30 + i * 15}px`;
     disk.dataset.size = i;
     disk.draggable = true;
@@ -41,9 +44,18 @@ function resetGame() {
     disk.addEventListener('touchstart', onTouchStart);
     pole0.appendChild(disk);
   }
+
   document.getElementById('overlay').classList.remove('show');
   resetTimer();
   startTimer();
+
+  // Iniciar música de fondo si no está ya sonando
+  if (bgMusic.paused) {
+    bgMusic.volume = 0.4; // Puedes ajustar el volumen
+    bgMusic.play().catch(() => {
+      // Algunos navegadores requieren interacción del usuario
+    });
+  }
 }
 
 function onDragStart(e) {
@@ -63,6 +75,8 @@ document.querySelectorAll('.pole').forEach(pole => {
     if (!topDisk || +draggedDisk.dataset.size < +topDisk.dataset.size) {
       this.appendChild(draggedDisk);
       moveCount++;
+      putSound.currentTime = 0;
+      putSound.play();
       updateCounter();
       checkWin();
     }
@@ -120,6 +134,8 @@ function onTouchStart(e) {
       if (!topDisk || +draggedDisk.dataset.size < +topDisk.dataset.size) {
         dropPole.appendChild(draggedDisk);
         moveCount++;
+        putSound.currentTime = 0;
+        putSound.play();
         updateCounter();
         checkWin();
       }

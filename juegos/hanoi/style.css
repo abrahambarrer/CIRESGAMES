@@ -79,6 +79,13 @@ main {
   transform: scale(1.2);
 }
 
+.disk-1 { background-color: #e74c3c; }   /* Rojo */
+.disk-2 { background-color: #f39c12; }   /* Naranja */
+.disk-3 { background-color: #f1c40f; }   /* Amarillo */
+.disk-4 { background-color: #2ecc71; }   /* Verde */
+.disk-5 { background-color: #3498db; }   /* Azul */
+.disk-6 { background-color: #9b59b6; }   /* Violeta */
+
 .hidden {
   display: none;
 }
